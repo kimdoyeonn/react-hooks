@@ -1,49 +1,22 @@
 import React, { Component, useState } from "react";
 import "./styles.css";
 
-const App = () => {
-  const [item, setItem] = useState(1);
-  const incrementItem = () => setItem(item + 1);
-  const decrementItem = () => setItem(item - 1);
+const useInput = (initialValue) => {
+  const [value, setValue] = useState(initialValue);
+  const onChange = (event) => {
+    console.log(event.target);
+  };
+  return { value, onChange };
+};
 
+const App = () => {
+  const name = useInput("Mr.");
   return (
     <>
-      {item}
-      <button onClick={incrementItem}>Increment</button>
-      <button onClick={decrementItem}>decrement</button>
+      <h2>Hello</h2>
+      <input placeholder="Name" {...name} />
     </>
   );
 };
-
-class AppUgly extends React.Component {
-  state = {
-    item: 1
-  };
-  incrementItem = () => {
-    this.setState((state) => {
-      return {
-        item: state.item + 1
-      };
-    });
-  };
-  decrementItem = () => {
-    this.setState((state) => {
-      return {
-        item: state.item - 1
-      };
-    });
-  };
-  render() {
-    const { item } = this.state;
-
-    return (
-      <>
-        {item}
-        <button onClick={this.incrementItem}>Increment</button>
-        <button onClick={this.decrementItem}>decrement</button>
-      </>
-    );
-  }
-}
 
 export default App;

@@ -58,3 +58,29 @@ class AppUgly extends React.Component {
   }
 }
 ```
+
+### #1.1 useInput
+
+input을 업데이트함
+
+```jsx
+const useInput = (initialValue) => {
+  const [value, setValue] = useState(initialValue);
+  const onChange = (event) => {
+    console.log(event.target);
+  };
+  return { value, onChange };
+};
+
+const App = () => {
+  const name = useInput("Mr.");
+  return (
+    <>
+      <h2>Hello</h2>
+      <input placeholder="Name" {...name} />
+    </>
+  );
+};
+```
+
+component가 아닌, 함수로 이벤트를 제어할 수 있어! 지금까지는 버튼이 눌렸을 때, 콘솔에 target을 찍어주는 형태로 동작
