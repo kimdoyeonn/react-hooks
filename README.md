@@ -89,3 +89,43 @@ component가 아닌, 함수로 이벤트를 제어할 수 있어! 지금까지�
 
 - 조금 더 업데이트 시켜서 다른 사람들이 사용할 수 있도록 `npm`에 등록시키기
 - 검증 코드를 추가함 ex) 글자수 제한, 특정 문자열 제한...
+
+### #1.3 useTabs
+
+- content 배열의 tab을 화면에 뿌려서 보여주고 tab을 클릭시 같은 배열 안에 있는 content를 화면에 뿌려줌
+
+```jsx
+const content = [
+  {
+    tab: "Section 1",
+    content: "I'm the content of the Section 1"
+  },
+  {
+    tab: "Section 2",
+    content: "I'm the content of the Section 2"
+  }
+];
+
+const useTabs = (initialTab, allTabs) => {
+  if (!allTabs || !Array.isArray(allTabs)) {
+    return;
+  }
+  const [currentIndex, setCurrentIndex] = useState(initialTab);
+  return {
+    currentItem: allTabs[currentIndex],
+    changeItem: setCurrentIndex
+  };
+};
+
+const App = () => {
+  const { currentItem, changeItem } = useTabs(0, content);
+  return (
+    <div className="App">
+      {content.map((section, index) => (
+        <button onClick={() => changeItem(index)}>{section.tab}</button>
+      ))}
+      <div>{currentItem.content}</div>
+    </div>
+  );
+};
+```
