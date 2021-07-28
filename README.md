@@ -129,3 +129,38 @@ const App = () => {
   );
 };
 ```
+
+## `useEffect`
+
+### #2.0 Introduction to `useEffect`
+
+`componentWillUnmount`, `componentDidMount`, `componentWillUpdate`
+
+- `useEffect(func)`
+
+  모든 변화를 감지하여 `func`을 실행
+
+- `useEffect(func, [])`
+
+  어떤 변화도 감지하지 않음, 렌더링됐을 때만 `func`을 실행
+
+- `useEffect(func, [number])`
+
+  `number` 가 변화할 때를 감지하여 `func` 실행 (`componentWillUpdate`)
+
+```jsx
+const App = () => {
+  const sayHello = () => console.log("Hello");
+  const [number, setNumber] = useState(0);
+  const [aNumber, setANumber] = useState(0);
+  useEffect(sayHello, []);
+
+  return (
+    <div className="App">
+      <div>Hi</div>
+      <button onClick={() => setNumber(number + 1)}>{number}</button>
+      <button onClick={() => setANumber(aNumber + 1)}>{aNumber}</button>
+    </div>
+  );
+};
+```
