@@ -259,3 +259,27 @@ const App = () => {
   );
 };
 ```
+
+### #2.4 useBeforeLeave
+
+```jsx
+const useBeforeLeave = (onBefore) => {
+  if (typeof onBefore !== "function") {
+    return;
+  }
+  const handle = (event) => {
+    const { clientY } = event;
+    if (clientY <= 0) {
+      onBefore();
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mouseleave", handle);
+    return () => document.removeEventListener("mouseleave", handle);
+  }, []);
+};
+```
+
+마우스가 특정 영역을 벗어나면 알려주는 hook
+
+event 객체가 가지고 있는 좌표를 이용해서 어디로 나갔는지를 판단하여 동작하게 할 수 있다.
