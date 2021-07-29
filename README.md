@@ -164,3 +164,37 @@ const App = () => {
   );
 };
 ```
+
+### #2.2 useClick
+
+- `useRef`: 컴포넌트의 일부를 선택할 수 있는 방법 (`getElementById`와 같은 동작)
+
+```jsx
+const useClick = (onClick) => {
+  if (typeof onClick !== "function") {
+    return;
+  }
+  const element = useRef();
+  useEffect(() => {
+    if (element.current) {
+      element.current.addEventListener("click", onClick);
+    }
+    return () => {
+      if (element.current) {
+        element.current.removeEventListener("click", onClick);
+      }
+    };
+  }, []);
+  return element;
+};
+const App = () => {
+  const sayHello = () => console.log("say hello");
+  const title = useClick(sayHello);
+
+  return (
+    <div className="App">
+      <h1 ref={title}>Hi</h1>
+    </div>
+  );
+};
+```
