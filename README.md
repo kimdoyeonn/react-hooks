@@ -283,3 +283,37 @@ const useBeforeLeave = (onBefore) => {
 마우스가 특정 영역을 벗어나면 알려주는 hook
 
 event 객체가 가지고 있는 좌표를 이용해서 어디로 나갔는지를 판단하여 동작하게 할 수 있다.
+
+### #2.5 useFadeIn & useNetwork
+
+- `useFadeIn`
+
+```jsx
+const useFadeIn = (duration = 1, delay = 0) => {
+  if (typeof duration !== "number" || typeof delay !== "number") {
+    return;
+  }
+  const element = useRef();
+  useEffect(() => {
+    if (element.current) {
+      const { current } = element;
+      current.style.opacity = 1;
+      current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
+    }
+  }, []);
+  return { ref: element, style: { opacity: 0 } };
+};
+
+const App = () => {
+  const fadeInH1 = useFadeIn(1, 2);
+  const fadeInP = useFadeIn(5, 10);
+  return (
+    <div className="App">
+      <h1 {...fadeInH1}>Hello</h1>
+      <p {...fadeInP}>lorem ipsum lalallala</p>
+    </div>
+  );
+};
+```
+
+- element가 나타날 시간, 나타나는데 걸리는 시간을 설정하는 hook
