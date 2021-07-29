@@ -198,3 +198,64 @@ const App = () => {
   );
 };
 ```
+
+### #2.3 useConfirm & usePreventLeave
+
+- 이 장에서 한 두개는 hooks를 사용하는 것이 아님
+- `useConfirm`
+  사용자에게 한번 더 확인 받기
+
+```jsx
+const useConfirm = (message = "", onConfirm, onCancel) => {
+  if (!onConfirm || typeof onConfirm !== "function") {
+    return;
+  }
+  if (!onCancel || typeof onCancel !== "function") {
+    return;
+  }
+  const confirmAction = () => {
+    if (confirm(message)) {
+      onConfirm();
+    } else {
+      onCancel();
+    }
+  };
+  return confirmAction;
+};
+const App = () => {
+  const deleteWorld = () => console.log("Deleting the world");
+  const abort = () => console.log("Aborted");
+  const confirmDelete = useConfirm("Are you sure", deleteWorld, abort);
+  return (
+    <div className="App">
+      <button onClick={confirmDelete}>Delete the world</button>
+    </div>
+  );
+};
+```
+
+- `usePreventLeave`
+  사용자가 저장없이 떠나는 것을 막음
+
+```jsx
+const usePreventLeave = () => {
+  const listener = (event) => {
+    event.preventDefault();
+    event.returnValue = "";
+  };
+  const enablePrevent = () => window.addEventListener("beforeunload", listener);
+  const disablePrevent = () =>
+    window.removeEventListener("beforeunload", listener);
+  return { enablePrevent, disablePrevent };
+};
+
+const App = () => {
+  const { enablePrevent, disablePrevent } = usePreventLeave();
+  return (
+    <div className="App">
+      <button onClick={enablePrevent}>Protect</button>
+      <button onClick={disablePrevent}>Unprotect</button>
+    </div>
+  );
+};
+```
